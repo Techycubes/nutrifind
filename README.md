@@ -1,3 +1,47 @@
+# NutriFind
+
+NutriFind is a mobile-first web app to find foods and recipes based on personal nutrition goals, and to analyze products with a Yuka-style score.
+
+## What it does
+- Goal-based food and recipe search
+- Product search (OpenFoodFacts) with Yuka-style scoring
+- Product analysis card with positives, warnings, additives and nutrition table
+- My Plate: local daily tracker stored in localStorage
+
+## Run locally
+1. Copy environment variables into `.env.local` (see `.env.local.example`).
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Run development server:
+
+```bash
+npm run dev
+```
+
+Open http://localhost:3000
+
+## API keys
+- Spoonacular: https://spoonacular.com/food-api
+- USDA FoodData Central: https://fdc.nal.usda.gov/api-key-signup.html
+- Kroger: https://developer.kroger.com
+
+Set the following env vars in `.env.local`:
+
+```
+SPOONACULAR_API_KEY=
+USDA_API_KEY=
+KROGER_CLIENT_ID=
+KROGER_CLIENT_SECRET=
+```
+
+## Notes
+- Spoonacular free tier is limited (~150 requests/day) — avoid heavy usage during development.
+- OpenFoodFacts does not require an API key.
+- This repo contains scaffolding for the app; components and routes are intentionally minimal and can be extended.
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started

@@ -6,14 +6,14 @@ export default function RecipeCard({ recipe }: { recipe: any }) {
   const [added, setAdded] = useState(false);
 
   return (
-    <div className="p-4 rounded-2xl shadow bg-white flex items-center justify-between">
+    <div className="p-4 card soft-shadow flex items-center justify-between">
       <div>
         <div className="font-medium">{recipe.title || recipe.name}</div>
         <div className="text-sm text-zinc-500">{recipe.readyInMinutes ? `${recipe.readyInMinutes} min` : "—"}</div>
       </div>
       <div className="flex flex-col items-end gap-2">
         <button
-          className="text-sm text-green-600"
+          className="btn btn-primary"
           onClick={() => {
             try {
               const raw = localStorage.getItem("my_plate");
@@ -35,7 +35,7 @@ export default function RecipeCard({ recipe }: { recipe: any }) {
         >
           Add to Plate
         </button>
-        {added && <div className="text-sm text-green-700">Added</div>}
+        {added && <div className="badge" style={{ background: "#ecfdf5", color: "#065f46" }}>Added</div>}
       </div>
     </div>
   );

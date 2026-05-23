@@ -28,8 +28,8 @@ export default function ProductSearch() {
   return (
     <div className="w-full">
       <form className="flex gap-2 mb-4" onSubmit={search}>
-        <input className="flex-1 p-2 border rounded" placeholder="Search product or food" value={query} onChange={(e) => setQuery(e.target.value)} />
-        <button className="px-4 rounded bg-green-600 text-white">Search</button>
+        <input className="flex-1 p-3 border rounded-full" placeholder="Search product or food" value={query} onChange={(e) => setQuery(e.target.value)} />
+        <button className="btn btn-primary" type="submit">Search</button>
       </form>
 
       {loading && <div>Loading…</div>}

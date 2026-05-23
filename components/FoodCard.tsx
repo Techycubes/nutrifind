@@ -12,22 +12,22 @@ export default function FoodCard({ product }: { product: any }) {
   const scored = scoreProduct(p);
 
   return (
-    <div className="p-4 rounded-2xl shadow bg-white flex items-center gap-4">
+    <div className="p-4 card soft-shadow flex items-center gap-4 relative">
       <img src={p.image_url || "/vercel.svg"} alt={p.product_name || "item"} className="w-16 h-16 object-cover rounded" />
       <div className="flex-1">
         <div className="font-medium">{p.product_name || p.name || "Unknown"}</div>
         <div className="text-sm text-zinc-500">{p.brands}</div>
       </div>
-      <div className="flex flex-col items-end gap-2">
+      <div className="flex flex-col items-end gap-3">
         <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: scored.color, color: "white" }}>
           <div className="text-sm font-bold">{scored.score}</div>
         </div>
         <div className="flex flex-col items-end gap-2">
-          <button className="text-sm text-blue-600" onClick={() => setOpen(true)}>
+          <button className="btn btn-outline" onClick={() => setOpen(true)} aria-label={`Analyze ${p.product_name || p.name}`}>
             Analyze
           </button>
           <button
-            className="text-sm text-green-600"
+            className="btn btn-primary"
             onClick={() => {
               try {
                 const raw = localStorage.getItem("my_plate");
@@ -46,13 +46,14 @@ export default function FoodCard({ product }: { product: any }) {
                 console.error(e);
               }
             }}
+            aria-label={`Add ${p.product_name || p.name} to plate`}
           >
             Add to Plate
           </button>
         </div>
       </div>
       {open && <ProductAnalysis product={p} scored={scored} onClose={() => setOpen(false)} />}
-      {added && <div className="absolute -translate-y-8 text-sm text-green-700">Added</div>}
+      {added && <div className="badge" style={{ position: "absolute", right: 12, top: 8, background: "#ecfdf5", color: "#065f46" }}>Added</div>}
     </div>
   );
 }

@@ -63,7 +63,7 @@ export default function ProductAnalysis({ product, scored, onClose }: { product:
               <div className="text-sm text-zinc-500">{product.brands}</div>
             </div>
           </div>
-          <button className="text-gray-600" onClick={onClose}>Close</button>
+          <button className="btn btn-ghost" onClick={onClose} aria-label="Close">Close</button>
         </div>
 
         <div className="mt-4 grid grid-cols-1 gap-3">

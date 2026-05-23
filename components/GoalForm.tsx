@@ -14,7 +14,7 @@ export default function GoalForm({ onSearch }: Props) {
 
   return (
     <form
-      className="w-full max-w-md p-4 bg-white rounded-2xl shadow"
+      className="w-full max-w-md p-4 card soft-shadow"
       onSubmit={(e) => {
         e.preventDefault();
         onSearch({ calories: Number(calories) || undefined, protein: Number(protein) || undefined, diet, mealType });
@@ -49,7 +49,7 @@ export default function GoalForm({ onSearch }: Props) {
           <option value="snack">Snack</option>
         </select>
       </div>
-      <button className="w-full py-2 px-4 rounded bg-green-600 text-white">Find Foods</button>
+      <button className="btn btn-primary w-full" type="submit">Find Foods</button>
     </form>
   );
 }

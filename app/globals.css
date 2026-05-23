@@ -2,7 +2,12 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #111827;
+  --primary: #22c55e;
+  --primary-600: #16a34a;
+  --muted: #f8fafc;
+  --card-bg: #ffffff;
+  --card-shadow: 0 8px 20px rgba(17,24,39,0.06);
 }
 
 @theme inline {
@@ -24,3 +29,20 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Common UI tokens */
+.card { background: var(--card-bg); border-radius: 1rem; box-shadow: var(--card-shadow); }
+.soft-shadow { box-shadow: 0 6px 18px rgba(17,24,39,0.06); }
+
+/* Button primitives to make clickable areas obvious */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.5rem 0.875rem; border-radius: 9999px; font-weight: 600; cursor: pointer; border: 1px solid transparent; transition: background-color .12s ease, transform .06s ease; }
+.btn:active { transform: translateY(1px); }
+.btn:focus { outline: none; box-shadow: 0 0 0 3px rgba(34,197,94,0.12); }
+.btn-primary { background: var(--primary); color: white; }
+.btn-primary:hover { background: var(--primary-600); }
+.btn-outline { background: white; color: var(--foreground); border-color: rgba(0,0,0,0.08); }
+.btn-ghost { background: transparent; color: var(--foreground); }
+
+/* Small utility */
+.badge { display: inline-flex; align-items:center; gap:0.25rem; padding:0.25rem 0.5rem; border-radius:9999px; font-size:0.75rem; }
+

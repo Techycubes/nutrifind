@@ -52,7 +52,7 @@ export default function ProductAnalysis({ product, scored, onClose }: { product:
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="w-full max-w-xl p-6 bg-white rounded-2xl shadow-lg max-h-[90vh] overflow-auto">
+      <div className="w-full max-w-xl p-6 bg-[var(--card-bg)] rounded-2xl shadow-lg max-h-[90vh] overflow-auto">
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-4">
             <div className="w-20 h-20 rounded-full flex items-center justify-center" style={{ background: scored.color, color: "white", fontSize: 20, fontWeight: 700 }}>
@@ -60,7 +60,7 @@ export default function ProductAnalysis({ product, scored, onClose }: { product:
             </div>
             <div>
               <div className="font-bold text-lg">{product.product_name || product.name}</div>
-              <div className="text-sm text-zinc-500">{product.brands}</div>
+              <div className="text-sm muted">{product.brands}</div>
             </div>
           </div>
           <button className="btn btn-ghost" onClick={onClose} aria-label="Close">Close</button>
@@ -110,7 +110,7 @@ export default function ProductAnalysis({ product, scored, onClose }: { product:
             <div className="p-3 border rounded">
               <div className="font-medium mb-2">Better Options</div>
               {loadingAlts && <div>Loading alternatives…</div>}
-              {!loadingAlts && alternatives.length === 0 && <div className="text-zinc-500">No alternatives found.</div>}
+              {!loadingAlts && alternatives.length === 0 && <div className="muted">No alternatives found.</div>}
               {!loadingAlts && alternatives.length > 0 && (
                 <div className="space-y-2">
                   {alternatives.map((a: any, i: number) => (
@@ -125,7 +125,7 @@ export default function ProductAnalysis({ product, scored, onClose }: { product:
           )}
 
           <div className="p-3 border rounded">
-            <button className="px-3 py-2 bg-green-600 text-white rounded" onClick={findNearMe}>Find Near Me</button>
+            <button className="btn btn-primary" onClick={findNearMe}>Find Near Me</button>
             {stores.length > 0 && (
               <div className="mt-3 space-y-2">
                 {stores.map((s, idx) => (

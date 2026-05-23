@@ -1,21 +1,24 @@
 "use client";
 
 import React, { useState } from "react";
+import { useAuth } from "./AuthProvider";
 
 export default function RecipeCard({ recipe }: { recipe: any }) {
   const [added, setAdded] = useState(false);
+  const auth = useAuth();
 
   return (
     <div className="p-4 card soft-shadow flex items-center justify-between">
       <div>
         <div className="font-medium">{recipe.title || recipe.name}</div>
-        <div className="text-sm text-zinc-500">{recipe.readyInMinutes ? `${recipe.readyInMinutes} min` : "—"}</div>
+        <div className="text-sm muted">{recipe.readyInMinutes ? `${recipe.readyInMinutes} min` : "—"}</div>
       </div>
       <div className="flex flex-col items-end gap-2">
         <button
           className="btn btn-primary"
           onClick={() => {
             try {
+              if (!auth.isAuthenticated) return auth.openAuthModal("login");
               const raw = localStorage.getItem("my_plate");
               const arr = raw ? JSON.parse(raw) : [];
               const entry = {

@@ -39,7 +39,7 @@ export default function ResultsPage() {
   }
 
   return (
-    <div className="p-4 max-w-3xl mx-auto">
+    <div className="p-4 max-w-3xl mx-auto pb-24">
       <h1 className="text-2xl font-bold mb-4">Search</h1>
       <div className="mb-4">
         <SponsoredCard />
@@ -58,10 +58,10 @@ export default function ResultsPage() {
 
         <div className="mt-4">
           <div className="flex gap-2 mb-3">
-            <button className={`px-3 py-1 rounded ${tab === "foods" ? "bg-green-600 text-white" : "border"}`} onClick={() => setTab("foods")}>
+            <button className={`px-3 py-1 rounded ${tab === "foods" ? "tab-active" : "border"}`} onClick={() => setTab("foods")}>
               Foods
             </button>
-            <button className={`px-3 py-1 rounded ${tab === "recipes" ? "bg-green-600 text-white" : "border"}`} onClick={() => setTab("recipes")}>
+            <button className={`px-3 py-1 rounded ${tab === "recipes" ? "tab-active" : "border"}`} onClick={() => setTab("recipes")}>
               Recipes
             </button>
           </div>
@@ -70,12 +70,12 @@ export default function ResultsPage() {
             foods.length ? (
               <div className="grid grid-cols-1 gap-4">{foods.map((p, i) => <FoodCard key={p.code ?? i} product={p} />)}</div>
             ) : (
-              <div className="text-zinc-500">No foods found. Try different goals.</div>
+              <div className="muted">No foods found. Try different goals.</div>
             )
           ) : recipes.length ? (
             <div className="grid grid-cols-1 gap-4">{recipes.map((r, i) => <RecipeCard key={r.id ?? i} recipe={r} />)}</div>
           ) : (
-            <div className="text-zinc-500">No recipes found. Try different goals.</div>
+            <div className="muted">No recipes found. Try different goals.</div>
           )}
         </div>
       </section>

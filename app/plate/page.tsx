@@ -10,15 +10,32 @@ export default function PlatePage() {
   const [items, setItems] = useState<PlateItem[]>([]);
 
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem("my_plate");
-      if (raw) setItems(JSON.parse(raw));
-    } catch (e) {}
-  }, []);
+    if (!auth.isAuthenticated) return;
+    let mounted = true;
+    (async () => {
+      try {
+        const res = await fetch("/api/plate");
+        if (!res.ok) return;
+        const data = await res.json();
+        if (mounted) setItems(data);
+      } catch (e) {
+        console.error(e);
+      }
+    })();
+    return () => {
+      mounted = false;
+    };
+  }, [auth.isAuthenticated]);
 
-  useEffect(() => {
-    localStorage.setItem("my_plate", JSON.stringify(items));
-  }, [items]);
+  async function removeItem(id: string) {
+    try {
+      const res = await fetch("/api/plate", { method: "DELETE", headers: { "content-type": "application/json" }, body: JSON.stringify({ id }) });
+      if (!res.ok) return;
+      setItems((s) => s.filter((x) => x.id !== id));
+    } catch (e) {
+      console.error(e);
+    }
+  }
 
   if (!auth.isAuthenticated) {
     return (
@@ -43,7 +60,7 @@ export default function PlatePage() {
               <div className="font-medium">{it.name}</div>
               <div className="text-sm muted">{it.calories ?? "—"} kcal</div>
             </div>
-            <button className="text-red-600" onClick={() => setItems(items.filter((x) => x.id !== it.id))}>Remove</button>
+            <button className="text-red-600" onClick={() => removeItem(it.id)}>Remove</button>
           </div>
         ))}
       </div>

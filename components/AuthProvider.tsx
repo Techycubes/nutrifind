@@ -33,32 +33,48 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
   const [authMode, setAuthMode] = useState<AuthMode>("login");
 
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem("auth_user");
-      if (raw) {
-        setUser(JSON.parse(raw));
-        setIsAuthenticated(true);
+    // check server-side session
+    (async () => {
+      try {
+        const res = await fetch("/api/auth/me");
+        if (res.ok) {
+          const data = await res.json();
+          setUser(data);
+          setIsAuthenticated(true);
+        }
+      } catch (e) {
+        // ignore
       }
-    } catch (e) {
-      // ignore
-    }
+    })();
   }, []);
 
-  function login(u: User) {
+  async function login(u: User) {
     setUser(u);
     setIsAuthenticated(true);
     try {
+      // merge any local plate into server
+      const raw = localStorage.getItem("my_plate");
+      if (raw) {
+        const items = JSON.parse(raw);
+        await fetch("/api/plate/merge", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ items }) });
+        localStorage.removeItem("my_plate");
+      }
       localStorage.setItem("auth_user", JSON.stringify(u));
     } catch (e) {}
     setShowAuthModal(false);
   }
 
   function logout() {
-    setUser(null);
-    setIsAuthenticated(false);
-    try {
-      localStorage.removeItem("auth_user");
-    } catch (e) {}
+    (async () => {
+      try {
+        await fetch("/api/auth/logout", { method: "POST" });
+      } catch (e) {}
+      setUser(null);
+      setIsAuthenticated(false);
+      try {
+        localStorage.removeItem("auth_user");
+      } catch (e) {}
+    })();
   }
 
   function openAuthModal(mode: AuthMode = "login") {

@@ -16,19 +16,17 @@ export default function RecipeCard({ recipe }: { recipe: any }) {
       <div className="flex flex-col items-end gap-2">
         <button
           className="btn btn-primary"
-          onClick={() => {
+          onClick={async () => {
             try {
               if (!auth.isAuthenticated) return auth.openAuthModal("login");
-              const raw = localStorage.getItem("my_plate");
-              const arr = raw ? JSON.parse(raw) : [];
               const entry = {
-                id: recipe.id ?? `${recipe.title ?? recipe.name}-${Date.now()}`,
                 name: recipe.title ?? recipe.name ?? "Recipe",
-                calories: recipe.nutrition?.calories ?? undefined,
-                protein: undefined,
+                calories: recipe.nutrition?.calories ?? null,
+                protein: null,
               };
-              arr.push(entry);
-              localStorage.setItem("my_plate", JSON.stringify(arr));
+              const res = await fetch('/api/plate', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(entry) });
+              if (res.status === 401) return auth.openAuthModal('login');
+              if (!res.ok) throw new Error('Failed to add');
               setAdded(true);
               setTimeout(() => setAdded(false), 2000);
             } catch (e) {

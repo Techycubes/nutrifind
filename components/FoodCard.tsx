@@ -30,19 +30,18 @@ export default function FoodCard({ product }: { product: any }) {
           </button>
             <button
               className="btn btn-primary"
-              onClick={() => {
+              onClick={async () => {
                 try {
                   if (!auth.isAuthenticated) return auth.openAuthModal("login");
-                  const raw = localStorage.getItem("my_plate");
-                  const arr = raw ? JSON.parse(raw) : [];
                   const entry = {
-                    id: p.code ?? `${p.product_name ?? p.name}-${Date.now()}`,
+                    externalId: p.code ?? null,
                     name: p.product_name ?? p.name ?? "Item",
-                    calories: p.nutriments?.["energy-kcal_100g"] ?? p.nutriments?.["energy_100g"] ?? undefined,
-                    protein: p.nutriments?.["proteins_100g"] ?? undefined,
+                    calories: Number(p.nutriments?.["energy-kcal_100g"] ?? p.nutriments?.["energy_100g"] ?? 0) || null,
+                    protein: Number(p.nutriments?.["proteins_100g"] ?? 0) || null,
                   };
-                  arr.push(entry);
-                  localStorage.setItem("my_plate", JSON.stringify(arr));
+                  const res = await fetch('/api/plate', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(entry) });
+                  if (res.status === 401) return auth.openAuthModal('login');
+                  if (!res.ok) throw new Error('Failed to add');
                   setAdded(true);
                   setTimeout(() => setAdded(false), 2000);
                 } catch (e) {

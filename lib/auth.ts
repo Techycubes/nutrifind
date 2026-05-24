@@ -1,6 +1,5 @@
 import jwt from "jsonwebtoken";
 import { serialize, parse } from "cookie";
-import prisma from "./prisma";
 
 const JWT_SECRET = process.env.JWT_SECRET || "dev-secret";
 const TOKEN_NAME = "token";
@@ -50,6 +49,7 @@ export async function getUserFromRequest(req: Request) {
     if (!token) return null;
     const data = verifyToken(token);
     if (!data?.userId) return null;
+    const { default: prisma } = await import("./prisma");
     const user = await prisma.user.findUnique({ where: { id: String(data.userId) }, select: { id: true, email: true, name: true } });
     return user;
   } catch (e) {

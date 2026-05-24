@@ -1,0 +1,3 @@
+-- Migration created to record current DB state (no-op)
+-- The schema already exists in the database (created by `prisma db push`).
+-- This file intentionally left minimal to avoid applying DDL that already exists.
